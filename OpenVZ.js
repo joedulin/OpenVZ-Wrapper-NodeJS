@@ -56,10 +56,10 @@
         var container, _containers, _i, _len, resjson, contarr;
         _containers = [];
         contarr = res.split('\n');
-        contarr.filter(function(n){return n;});
+        contarr = contarr.filter(function(n){return n;});
         contarr.forEach(function (item) {
 			var thiscont = item.split(/[\s\t ]/);
-			thiscont.filter(function(n){return n;});
+			thiscont = thiscont.filter(function(n){return n;});
 			console.log(thiscont);
 			var thisjson = {};
 			thisjson.ip = [thiscont[0]];
