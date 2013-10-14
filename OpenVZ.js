@@ -64,9 +64,9 @@
 			var thisjson = {};
 			thisjson.ip = [thiscont[0]];
 			thisjson.hostname = thiscont[1];
-			thisjson.ostempalte = thiscont[2];
+			thisjson.ostemplate = thiscont[2];
 			thisjson.status = thiscont[3];
-			thisjson.numproc = thiscont[4];
+			thisjson.numproc = { held: thiscont[4] };
 			thisjson.physpages = { held: thiscont[5], limit: thiscont[6] };
 			thisjson.swappages = { held: thiscont[7], limit: thiscont[8] };
 			thisjson.diskspace = { usage: thiscont[9], softlimit: thiscont[10] };
