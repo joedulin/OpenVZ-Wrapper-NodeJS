@@ -70,7 +70,7 @@
 			thisjson.physpages = { held: thiscont[5], limit: thiscont[6] };
 			thisjson.swappages = { held: thiscont[7], limit: thiscont[8] };
 			thisjson.diskspace = { usage: thiscont[9], softlimit: thiscont[10] };
-			thisjson.laverage = thiscont[11].split('/');
+			thisjson.laverage = thiscont[11].split('\/');
 			_containers.push(thisjson);
 		});
         //_containers = JSON.parse(res);
