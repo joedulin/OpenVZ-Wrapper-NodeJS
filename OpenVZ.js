@@ -54,9 +54,13 @@
       //return this.run('vzlist -a -j', function(err, res) {
       return this.run('vzlist -H -a -o ip,hostname,ostemplate,status,numproc,physpages,physpages.l,swappages,swappages.l,diskspace,diskspace.s,laverage', function (err, res) {	
         var container, _containers, _i, _len, resjson, contarr;
+        _containers = [];
         contarr = res.split('\n');
+        contarr.filter(function(n){return n;});
         contarr.forEach(function (item) {
 			var thiscont = item.split(/[\s\t ]/);
+			thiscont.filter(function(n){return n;});
+			console.log(thiscont);
 			var thisjson = {};
 			thisjson.ip = [thiscont[0]];
 			thisjson.hostname = thiscont[1];
