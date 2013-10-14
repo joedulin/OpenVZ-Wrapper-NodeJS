@@ -52,7 +52,7 @@
     OpenVZ.prototype.getContainers = function(cb) {
       var _this = this;
       //return this.run('vzlist -a -j', function(err, res) {
-      return this.run('vzlist -H -a -o ip,hostname,ostemplate,status,numproc,physpages,physpages.l,swappages,swappages.l,diskspace,diskspace.s,laverage', function (err, res) {	
+      return this.run('vzlist -H -a -o ip,hostname,ostemplate,status,numproc,physpages,physpages.l,swappages,swappages.l,diskspace,diskspace.s,laverage,ctid', function (err, res) {	
         var container, _containers, _i, _len, resjson, contarr;
         _containers = [];
         contarr = res.split('\n');
@@ -71,6 +71,7 @@
 			thisjson.swappages = { held: thiscont[7], limit: thiscont[8] };
 			thisjson.diskspace = { usage: thiscont[9], softlimit: thiscont[10] };
 			thisjson.laverage = thiscont[11].split('\/');
+			thisjson.ctid = thiscont[12];
 			_containers.push(thisjson);
 		});
         //_containers = JSON.parse(res);
