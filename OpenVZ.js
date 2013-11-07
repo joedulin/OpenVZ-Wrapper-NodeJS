@@ -60,7 +60,6 @@
         contarr.forEach(function (item) {
 			var thiscont = item.split(/[\s\t ]/);
 			thiscont = thiscont.filter(function(n){return n;});
-			console.log(thiscont);
 			var thisjson = {};
 			thisjson.ip = [thiscont[0]];
 			thisjson.hostname = thiscont[1];
