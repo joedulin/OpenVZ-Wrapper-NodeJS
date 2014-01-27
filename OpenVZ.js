@@ -3,22 +3,24 @@
   var Container, OpenVZ, Validator, async, colors, exec, fs, nexpect,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prot
+otype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+                                                                                                                                                                                                           
   fs = require('fs');
-
+                                                                                                                                                                                                           
   nexpect = require('nexpect');
-
+                                                                                                                                                                                                           
   async = require('async');
-
+                                                                                                                                                                                                           
   exec = require('child_process').exec;
-
+                                                                                                                                                                                                           
   colors = require('colors');
-
-  Validator = require('validator').Validator;
-
+                                                                                                                                                                                                           
+  //Validator = require('validator').Validator;
+  Validator = require('validator');
+                                                                                                                                                                                                           
   OpenVZ = (function() {
-
+                                                                                                                                                                                                           
     function OpenVZ(params) {
       this.params = params != null ? params : {};
       this.createContainer = __bind(this.createContainer, this);
@@ -44,35 +46,35 @@
       this.getContainers(params.onReady);
       this.interval = setInterval(this.getContainers, this.updateInterval);
     }
-
+                                                                                                                                                                                                           
     OpenVZ.prototype.getVMDefault = function(attr, ctid) {
       return this.defaults[attr].replace(/\$\{VMID\}/g, ctid);
     };
-
+                                                                                                                                                                                                           
     OpenVZ.prototype.getContainers = function(cb) {
       var _this = this;
       //return this.run('vzlist -a -j', function(err, res) {
-      return this.run('vzlist -H -a -o ip,hostname,ostemplate,status,numproc,physpages,physpages.l,swappages,swappages.l,diskspace,diskspace.s,laverage,ctid', function (err, res) {	
+      return this.run('vzlist -H -a -o ip,hostname,ostemplate,status,numproc,physpages,physpages.l,swappages,swappages.l,diskspace,diskspace.s,laverage,ctid', function (err, res) {
         var container, _containers, _i, _len, resjson, contarr;
         _containers = [];
         contarr = res.split('\n');
         contarr = contarr.filter(function(n){return n;});
         contarr.forEach(function (item) {
-			var thiscont = item.split(/[\s\t ]/);
-			thiscont = thiscont.filter(function(n){return n;});
-			var thisjson = {};
-			thisjson.ip = [thiscont[0]];
-			thisjson.hostname = thiscont[1];
-			thisjson.ostemplate = thiscont[2];
-			thisjson.status = thiscont[3];
-			thisjson.numproc = { held: thiscont[4] };
-			thisjson.physpages = { held: thiscont[5], limit: thiscont[6] };
-			thisjson.swappages = { held: thiscont[7], limit: thiscont[8] };
-			thisjson.diskspace = { usage: thiscont[9], softlimit: thiscont[10] };
-			thisjson.laverage = thiscont[11].split('\/');
-			thisjson.ctid = thiscont[12];
-			_containers.push(thisjson);
-		});
+                       var thiscont = item.split(/[\s\t ]/);
+                       thiscont = thiscont.filter(function(n){return n;});
+                       var thisjson = {};
+                       thisjson.ip = [thiscont[0]];
+                       thisjson.hostname = thiscont[1];
+                       thisjson.ostemplate = thiscont[2];
+                       thisjson.status = thiscont[3];
+                       thisjson.numproc = { held: thiscont[4] };
+                       thisjson.physpages = { held: thiscont[5], limit: thiscont[6] };
+                       thisjson.swappages = { held: thiscont[7], limit: thiscont[8] };
+                       thisjson.diskspace = { usage: thiscont[9], softlimit: thiscont[10] };
+                       thisjson.laverage = thiscont[11].split('\/');
+                       thisjson.ctid = thiscont[12];
+                       _containers.push(thisjson);
+               });
         //_containers = JSON.parse(res);
         _this.containers = [];
         for (_i = 0, _len = _containers.length; _i < _len; _i++) {
@@ -82,7 +84,7 @@
         return typeof cb === "function" ? cb(err, _this.containers) : void 0;
       }, false);
     };
-
+                                                                                                                                                                                                           
     OpenVZ.prototype.run = function(cmd, cb, logit) {
       if (logit == null) {
         logit = true;
@@ -94,7 +96,7 @@
         return typeof cb === "function" ? cb(error, stdout) : void 0;
       });
     };
-
+                                                                                                                                                                                                           
     OpenVZ.prototype.formatString = function(attrs) {
       var attr, str, value;
       str = (function() {
@@ -112,7 +114,7 @@
       })();
       return str.join(' ');
     };
-
+                                                                                                                                                                                                           
     OpenVZ.prototype.getContainerByCTID = function(CTID) {
       var container, _i, _len, _ref;
       _ref = this.containers;
@@ -123,11 +125,11 @@
         }
       }
     };
-
+                                                                                                                                                                                                           
     OpenVZ.prototype.asyncFunc = function(func, options, cb) {
       return cb(this[func](options));
     };
-
+                                                                                                                                                                                                           
     OpenVZ.prototype.createContainer = function(options, cb) {
       var container, key, v, value, vm, _ref, _ref1,
         _this = this;
@@ -162,15 +164,15 @@
         return typeof cb === "function" ? cb(e, vm) : void 0;
       });
     };
-
+                                                                                                                                                                                                           
     return OpenVZ;
-
+                                                                                                                                                                                                           
   })();
-
+                                                                                                                                                                                                           
   Container = (function(_super) {
-
+                                                                                                                                                                                                           
     __extends(Container, _super);
-
+                                                                                                                                                                                                           
     function Container(data) {
       this.data = data;
       this.restore = __bind(this.restore, this);
@@ -184,18 +186,18 @@
       this.setAll = __bind(this.setAll, this);
       this.create = __bind(this.create, this);
     }
-
+                                                                                                                                                                                                           
     Container.prototype.create = function(cb) {
       return this.run('create', this.getAttrs(['ipadd', 'root', 'private', 'hostname', 'layout', 'ostemplate', 'diskspace']), cb);
     };
-
+                                                                                                                                                                                                           
     Container.prototype.setAll = function(cb) {
       var attrs;
       attrs = this.getAttrs(['nameserver', 'userpasswd', 'onboot', 'cpuunits', 'ram']);
       attrs.save = true;
       return this.run('set', attrs, cb);
     };
-
+                                                                                                                                                                                                           
     Container.prototype.getAttrs = function(attrs) {
       var attr, obj, _i, _len;
       obj = {};
@@ -207,7 +209,7 @@
       }
       return obj;
     };
-
+                                                                                                                                                                                                           
     Container.prototype.run = function(cmd, attrs, cb) {
       var cmdStr;
       if (attrs instanceof Function) {
@@ -217,48 +219,50 @@
       cmdStr = ("vzctl " + cmd + " " + this.data.ctid + " ") + this.formatString(attrs);
       return Container.__super__.run.call(this, cmdStr, cb);
     };
-
+                                                                                                                                                                                                           
     Container.prototype.start = function(cb) {
       return this.run('start', cb);
     };
-
+                                                                                                                                                                                                           
     Container.prototype.stop = function(cb) {
       return this.run('stop', cb);
     };
-
+                                                                                                                                                                                                           
     Container.prototype.restart = function(cb) {
       return this.run('restart', cb);
     };
-
+                                                                                                                                                                                                           
     Container.prototype.destroy = function(cb) {
       return this.run('destroy', cb);
     };
-
+                                                                                                                                                                                                           
     Container.prototype.suspend = function(dumpFile, cb) {
       return this.run('suspend', {
         dumpfile: dumpFile
       }, cb);
     };
-
+                                                                                                                                                                                                           
     Container.prototype.restore = function(dumpFile, cb) {
       return this.run('restore', {
         dumpfile: dumpFile
       }, cb);
     };
-
+                                                                                                                                                                                                           
     return Container;
-
+                                                                                                                                                                                                           
   })(OpenVZ);
-
-  Validator.prototype.error = function(msg) {
+                                                                                                                                                                                                           
+  //Validator.error = function(msg) {
+  Validator.extend('error', function (msg) {
     this._errors.push(msg);
     return this;
-  };
-
-  Validator.prototype.getErrors = function() {
+  });
+                                                                                                                                                                                                           
+  //Validator.getErrors = function() {
+  Validator.extend('getErrors', function () {
     return this._errors;
-  };
-
+  });
+                                                                                                                                                                                                           
   module.exports = OpenVZ;
-
+                                                                                                                                                                                                           
 }).call(this);
